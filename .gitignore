@@ -1,0 +1,5 @@
+obj/
+trash/
+.vs/
+TestResults/
+bin/
