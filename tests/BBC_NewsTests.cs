@@ -1,74 +1,60 @@
-﻿
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Assert = NUnit.Framework.Assert;
-using UnitTestProject1.pages;
-using System.Threading;
-using SeleniumExtras.PageObjects;
 
-namespace UnitTestProject1.tests
+namespace FinalProject.tests
 {
     [TestFixture]
     public class BBC_NewsTests : BaseTest
     {
         private const string TEXT_OF_HEADLINE_NEWS = "Trump says Supreme Court nominee will be a woman";
-
         private const string TITLE_OF_THE_FIRTS_ELEMENT = "#HoodDocumentary: Family Business";
 
-
-        List<string> list_of_secondary_news_text = new List<string>()
+        List<string> LIST_OF_SECONDARY_NEWS = new List<string>()
         {
-            "Who will be the next US president? You decide",
-            "Armenia and Azerbaijan battle over disputed region",
-            "'Forced to work' as medics fighting coronavirus",
-                        "Attenborough spent lockdown 'listening to birds'",
-            "TikTok: US judge halts app store ban",
-                        "NFL legend Joe Montana thwarts kidnapping attempt",
-
-            "Australian theme park fined A$3.6m over ride deaths",
-            "PM promises to protect 30% of UK's land by 2030",
-            "Britons face up to £10,000 fine for not self-isolating",
-            "Gove heads to Brussels as EU trade talks resume",
-            "Trump says new court ruling on abortion 'possible'",
-            "Tear gas and arrests in Belarus protest crackdown"
-            //"At least 90 whales dead in stranding off Australia"
+            "Who really decides the US election?",
+            "Hepatitis C discovery wins the Nobel Prize",
+            "Lana Del Rey criticised for wearing mesh mask",
+            "How do pandemics normally end?",
+            "Paris to shut bars and increase virus alert",
+            "US Supreme Court pick grilled on presidential powers",
+            "'World's best airport' warns of prolonged crisis",
+            "Spike Lee leads tributes to murdered actor",
+            "Tasmanian Devils reintroduced into Australian wild",
+            "McDonald's among firms urging tougher forest rules",
+            "Charity pledges $250m to 'reimagine' US monuments",
+            "Nagorno-Karabakh conflict grows as big cities hit"
         };
 
-
-        [Test]
+        [Test, Priority(3)]
         public void GetTextOfMainNews()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
 
             Assert.AreEqual(TEXT_OF_HEADLINE_NEWS, GetNewsPage().TextOfHeadLineNews());
         }
 
-        [Test]
+        [Test, Priority(3)]
         public void ChecksSecondaryArticleTitles()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
 
-            Assert.IsTrue(GetNewsPage().IsSecondaryNewsTextCorrect(list_of_secondary_news_text));
+            Assert.IsTrue(GetNewsPage().IsSecondaryNewsTextCorrect(LIST_OF_SECONDARY_NEWS));
         }
 
-        [Test]
+        [Test, Priority(3)]
         public void CheckSearchResultContainsText()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
-
             GetNewsPage().InputTextOfCategory();
+            GetNewsPage().ClickOnSearchInputButton();
 
             Assert.AreEqual(TITLE_OF_THE_FIRTS_ELEMENT, GetSearchResultPage().FirstSearchResultText());
         }

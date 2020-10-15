@@ -2,37 +2,24 @@
 using SeleniumExtras.PageObjects;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using UnitTestProject1.pages;
 
+namespace FinalProject.pages
+{
+    public class QuestionPage : BasePage
+    {
+        public QuestionPage(IWebDriver driver) : base(driver) { }
 
-/*        
+        [FindsBy(How = How.XPath, Using = "//textarea[@class='text-input--long']")]
+        protected IWebElement EnterQuestionField { get; set; }
+
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Name']")]
         protected IWebElement EnterNameField { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Email address']")]
         protected IWebElement EnterEmailField { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Age']")]
-        protected IWebElement EnterAgeField { get; set; }
-
-        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Postcode']")]
-        protected IWebElement EnterPostcodeField { get; set; }
-
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Telephone number']")]
-        protected IWebElement EnterTelephoneNumberField { get; set; }*/
-namespace UnitTestProject1.pages
-{
-    public class QuestionPage : BasePage
-    {
-        public QuestionPage(IWebDriver driver) : base(driver) { }
-
-
-        [FindsBy(How = How.XPath, Using = "//div[@class='text-input']/input")]
-        protected IList<IWebElement> EnterFields { get; set; }
-        
-        [FindsBy(How = How.XPath, Using = "//textarea[@class='text-input--long']")]
-        protected IWebElement EnterQuestionField { get; set; }
+        protected IWebElement EnterTelephoneNumberField { get; set; }
 
         [FindsBy(How = How.XPath, Using = "(//input[@type='checkbox'])[1]")]
         protected IWebElement CheckboxAgeConfirmation { get; set; }
@@ -44,7 +31,6 @@ namespace UnitTestProject1.pages
         protected IWebElement ButtonOfSubmit { get; set; }
 
 
-        ///// error messages////
         [FindsBy(How = How.XPath, Using = "(//textarea[@class='text-input--long--error']/following-sibling::div)[2]")]
         protected IWebElement TextOfQuestionErrorMessage { get; set; }
 
@@ -64,12 +50,63 @@ namespace UnitTestProject1.pages
         protected IWebElement TextOfTermsCheckboxErrorMessage { get; set; }
 
 
-        private void ClickOnSubmitButton() { ButtonOfSubmit.Click(); }
         private void ClickOnAgeConfirmationCheckBox() { CheckboxAgeConfirmation.Click(); }
         private void ClickOnTermsOfServiceAcceptanceCheckBox() { CheckboxTermsConfirmation.Click(); }
+        public void ClickOnSubmitButton() { ButtonOfSubmit.Click(); }
 
+        public void FillForm(Dictionary<int, string> dictionary,  bool excludeQuestion = false, bool excludeName = false, bool excludeEmail = false, bool excludeTelephone = false, bool excludeAgeCheckbox = false, bool excludeTermsCheckbox = false) 
+        {
+            if (excludeQuestion != true){ EnterQuestionField.SendKeys(dictionary[1]); }
 
-        public void FillForm(Dictionary<int, string> dictionary, int excludeStringByKey = 0) //exclude string => list<string> и передавать несколько елементов
+            if (excludeName != true) { EnterNameField.SendKeys(dictionary[2]); }
+
+            if (excludeEmail != true) { EnterEmailField.SendKeys(dictionary[3]); }
+
+            if (excludeTelephone != true) { EnterTelephoneNumberField.SendKeys(dictionary[4]); }
+
+            if (excludeAgeCheckbox != true) { ClickOnAgeConfirmationCheckBox(); }
+
+            if (excludeTermsCheckbox != true) { ClickOnTermsOfServiceAcceptanceCheckBox(); }
+        }
+
+        public bool TextOfQuestionErrorIsPresent(string text_of_error) 
+        {
+            return TextOfQuestionErrorMessage.Text.Contains(text_of_error); 
+        }
+        public bool TextOfNameErrorIsPresent(string text_of_error) 
+        { 
+            return TextOfNameErrorMessage.Text.Contains(text_of_error); 
+        }
+        public bool TextOfEmailErrorIsPresent(string text_of_error)
+        { 
+            return TextOfEmailErrorMessage.Text.Contains(text_of_error);
+        }
+        public bool TextOfTelephoneNumberErrorIsPresent(string text_of_error) 
+        { 
+            return TextOfTelephoneNumberErrorMessage.Text.Contains(text_of_error); 
+        }
+
+        public bool IsAgeCheckboxErrorMessageIsPresent(string text_of_error)
+        {
+            if (CheckboxAgeConfirmation.Selected)
+            {
+                throw new Exception("Age Checkbox is toggled on");
+            }
+            return TextOfAgeCheckboxErrorMessage.Text.Contains(text_of_error);
+        }
+
+        public bool IsTermsCheckboxErrorMessageIsPresent(string text_of_error)
+        {
+            if (CheckboxTermsConfirmation.Selected)
+            {
+                throw new Exception("Terms Checkbox is toggled on");
+            }
+            return TextOfTermsCheckboxErrorMessage.Text.Contains(text_of_error);
+        }
+    }
+}
+
+/*        public void FillForm(Dictionary<int, string> dictionary, int excludeStringByKey = 0) //exclude string => list<string> и передавать несколько елементов
         {
             int n = 0;
 
@@ -96,46 +133,9 @@ namespace UnitTestProject1.pages
 
             if (excludeStringByKey != 8) { ClickOnTermsOfServiceAcceptanceCheckBox(); }
 
-            ClickOnSubmitButton();
-        }
+        }*/
 
 
-        public bool TextOfQuestionErrorIsPresent(string text_of_error) { return TextOfQuestionErrorMessage.Text.Contains(text_of_error); }
-        public bool TextOfNameErrorIsPresent(string text_of_error) { return TextOfNameErrorMessage.Text.Contains(text_of_error); }
-        public bool TextOfEmailErrorIsPresent(string text_of_error) { return TextOfEmailErrorMessage.Text.Contains(text_of_error); }
-        public bool TextOfTelephoneNumberErrorIsPresent(string text_of_error) { return TextOfTelephoneNumberErrorMessage.Text.Contains(text_of_error); }
+/*        [FindsBy(How = How.XPath, Using = "//div[@class='text-input']/input")]
+        protected IList<IWebElement> EnterFields { get; set; }*/
 
-
-        public bool IsAgeCheckboxErrorMessageIsPresent(string text_of_error)
-        {
-            if (CheckboxAgeConfirmation.Selected)
-            {
-                throw new Exception("Age Checkbox is toggled on");
-            }
-            return TextOfAgeCheckboxErrorMessage.Text.Contains(text_of_error);
-        }
-
-        public bool IsTermsCheckboxErrorMessageIsPresent(string text_of_error)
-        {
-            if (CheckboxTermsConfirmation.Selected)
-            {
-                throw new Exception("Terms Checkbox is toggled on");
-            }
-            return TextOfTermsCheckboxErrorMessage.Text.Contains(text_of_error);
-        }
-
-
-        // public void InputQuestionField(string question) { EnterQuestionField.Click(); EnterQuestionField.SendKeys(question); }
-        /*
-                public void InputNameField(string name) { EnterNameField.Click(); EnterNameField.SendKeys(name); }
-
-                public void InputEmailField(string question) { EnterEmailField.Click(); EnterEmailField.SendKeys(question); }
-
-                public void InputAgeField(string age) { EnterAgeField.Click(); EnterAgeField.SendKeys(age); }
-
-                public void InputPostcodeField(string postcode) { EnterPostcodeField.Click(); EnterPostcodeField.SendKeys(postcode); }
-
-                public void InputTelephoneNumberField(string number) { EnterTelephoneNumberField.Click(); EnterTelephoneNumberField.SendKeys(number); }*/
-        //
-    }
-}

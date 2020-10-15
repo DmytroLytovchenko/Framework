@@ -1,5 +1,6 @@
 obj/
-trash/
 .vs/
 TestResults/
 bin/
+FinalProject.csproj/
+FinalProject.csproj.user/

@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Assert = NUnit.Framework.Assert;
 
-namespace UnitTestProject1.tests
+namespace FinalProject.tests
 {
     [TestFixture]
     public class NegativeTests : BaseTest
@@ -14,35 +14,27 @@ namespace UnitTestProject1.tests
         private const string TEXT_OF_NUMBER_ERROR = "Telephone number can't be blank";
         private const string TEXT_OF_CHECKBOXES_ERROR = "must be accepted";
 
-/*        private const string TEXT_OF_QUESTION = "Question?";
-        private const string TEXT_OF_NAME = "Boris Britva";
-        private const string TEXT_OF_EMAIL = "email@email.com";
-        private const string TEXT_OF_AGE = "20";
-        private const string TEXT_OF_POSTCODE = "123456";
-        private const string TEXT_OF_TELEPHONE_NUMBER = "+123456789";*/
-
-        Dictionary<int, string> InputFields = new Dictionary<int, string>()
+        readonly Dictionary<int, string> InputData = new Dictionary<int, string>()
         {
             [1] = "Question?",
             [2] = "Name",
             [3] = "email@email.com",
-            [4] = "20",
-            [5] = "123456",
-            [6] = "+123456789",
-            [7] = "Turn off age checkbox",
-            [8] = "Turn off terms of service checkbox"
+            [4] = "+123456789",
+            [5] = "Turn off age checkbox",
+            [6] = "Turn off terms of service checkbox"
         };
 
         [Test, Priority(0)]
         public void CheckUnenteredQuestionErrorIsPresent()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
-            GetNewsPage().WaitVisibility();
+            GetNewsPage().ImplicitWait();
 
             GetNewsPage().NavigateToQuestionPage();
-            GetQuestionPage().FillForm(InputFields,1);
+            GetQuestionPage().FillForm(InputData, excludeQuestion:true);
+            GetQuestionPage().ClickOnSubmitButton();
 
             Assert.IsTrue(GetQuestionPage().TextOfQuestionErrorIsPresent(TEXT_OF_QUESTION_ERROR));
         }
@@ -50,13 +42,14 @@ namespace UnitTestProject1.tests
         [Test, Priority(1)]
         public void CheckUnenteredNameErrorIsPresent()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
-            GetNewsPage().WaitVisibility();
+            GetNewsPage().ImplicitWait();
 
             GetNewsPage().NavigateToQuestionPage();
-            GetQuestionPage().FillForm(InputFields, 2);
+            GetQuestionPage().FillForm(InputData, excludeName:true);
+            GetQuestionPage().ClickOnSubmitButton();
 
             Assert.IsTrue(GetQuestionPage().TextOfNameErrorIsPresent(TEXT_OF_NAME_ERROR));
         }
@@ -64,13 +57,14 @@ namespace UnitTestProject1.tests
         [Test, Priority(2)]
         public void CheckUnenteredEmailErrorIsPresent()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
-            GetNewsPage().WaitVisibility();
+            GetNewsPage().ImplicitWait();
 
             GetNewsPage().NavigateToQuestionPage();
-            GetQuestionPage().FillForm(InputFields, 3);
+            GetQuestionPage().FillForm(InputData, excludeEmail:true);
+            GetQuestionPage().ClickOnSubmitButton();
 
             Assert.IsTrue(GetQuestionPage().TextOfEmailErrorIsPresent(TEXT_OF_EMAIL_ERROR));
         }
@@ -78,13 +72,14 @@ namespace UnitTestProject1.tests
         [Test, Priority(3)]
         public void CheckUnenteredTelephoneNumberErrorIsPresent()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
-            GetNewsPage().WaitVisibility();
+            GetNewsPage().ImplicitWait();
 
             GetNewsPage().NavigateToQuestionPage();
-            GetQuestionPage().FillForm(InputFields, 6);
+            GetQuestionPage().FillForm(InputData, excludeTelephone:true);
+            GetQuestionPage().ClickOnSubmitButton();
 
             Assert.IsTrue(GetQuestionPage().TextOfTelephoneNumberErrorIsPresent(TEXT_OF_NUMBER_ERROR));
         }
@@ -92,13 +87,14 @@ namespace UnitTestProject1.tests
         [Test, Priority(4)]
         public void CheckAgeCheckboxToggledOffErrorIsPresent()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
-            GetNewsPage().WaitVisibility();
+            GetNewsPage().ImplicitWait();
 
             GetNewsPage().NavigateToQuestionPage();
-            GetQuestionPage().FillForm(InputFields, 7);
+            GetQuestionPage().FillForm(InputData, excludeAgeCheckbox:true);
+            GetQuestionPage().ClickOnSubmitButton();
 
             Assert.IsTrue(GetQuestionPage().IsAgeCheckboxErrorMessageIsPresent(TEXT_OF_CHECKBOXES_ERROR));
         }
@@ -106,13 +102,14 @@ namespace UnitTestProject1.tests
         [Test, Priority(5)]
         public void CheckTermsCheckboxToggledOffErrorIsPresent()
         {
-            GetHomePage().WaitVisibility();
+            GetHomePage().ImplicitWait();
 
             GetHomePage().NavigateToNews();
-            GetNewsPage().WaitVisibility();
+            GetNewsPage().ImplicitWait();
 
             GetNewsPage().NavigateToQuestionPage();
-            GetQuestionPage().FillForm(InputFields, 8);
+            GetQuestionPage().FillForm(InputData, excludeTermsCheckbox:true);
+            GetQuestionPage().ClickOnSubmitButton();
 
             Assert.IsTrue(GetQuestionPage().IsTermsCheckboxErrorMessageIsPresent(TEXT_OF_CHECKBOXES_ERROR));
         }
