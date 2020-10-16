@@ -106,36 +106,3 @@ namespace FinalProject.pages
     }
 }
 
-/*        public void FillForm(Dictionary<int, string> dictionary, int excludeStringByKey = 0) //exclude string => list<string> и передавать несколько елементов
-        {
-            int n = 0;
-
-            IList<IWebElement> element = EnterFields;
-
-            if (excludeStringByKey != 1)
-            { EnterQuestionField.SendKeys(dictionary[1]); }
-
-
-            foreach (var keyValue in dictionary)
-            {
-                if (keyValue.Key == 1 || keyValue.Key == 7 || keyValue.Key == 8) { continue; }
-
-                if (excludeStringByKey != keyValue.Key)
-                {
-                    element[n].Click();
-                    element[n].SendKeys(keyValue.Value);
-                    n++;
-                }
-                else { n++; continue; }
-            }
-
-            if (excludeStringByKey != 7) { ClickOnAgeConfirmationCheckBox(); }
-
-            if (excludeStringByKey != 8) { ClickOnTermsOfServiceAcceptanceCheckBox(); }
-
-        }*/
-
-
-/*        [FindsBy(How = How.XPath, Using = "//div[@class='text-input']/input")]
-        protected IList<IWebElement> EnterFields { get; set; }*/
-
